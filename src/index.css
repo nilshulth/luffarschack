@@ -1,22 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-dark: #0d1117;
-  --bg-card: #161b22;
-  --bg-elevated: #21262d;
-  --border-color: #30363d;
-  --text-primary: #e6edf3;
-  --text-secondary: #8b949e;
-  --text-muted: #6e7681;
-  --accent-cyan: #58a6ff;
-  --accent-green: #3fb950;
-  --accent-red: #f85149;
-  --accent-purple: #a371f7;
-  --accent-orange: #d29922;
-  --player-x: #ff6b6b;
-  --player-o: #4ecdc4;
-  --glow-x: rgba(255, 107, 107, 0.4);
-  --glow-o: rgba(78, 205, 196, 0.4);
+  --bg-paper: #fefcf3;
+  --bg-card: #fffef9;
+  --line-color: #add8e6;
+  --line-color-light: rgba(173, 216, 230, 0.4);
+  --margin-red: #e88e8e;
+  --border-color: #c9c5b8;
+  --text-primary: #2d3436;
+  --text-secondary: #636e72;
+  --text-muted: #95a5a6;
+  --pencil-gray: #4a4a4a;
+  --player-x: #e74c3c;
+  --player-o: #2980b9;
+  --glow-x: rgba(231, 76, 60, 0.3);
+  --glow-o: rgba(41, 128, 185, 0.3);
+  --accent-green: #27ae60;
 }
 
 * {
@@ -30,8 +29,8 @@ html, body {
 }
 
 body {
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg-dark);
+  font-family: 'Patrick Hand', cursive;
+  background: var(--bg-paper);
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
@@ -50,9 +49,24 @@ body {
   justify-content: center;
   padding: 1rem;
   background: 
-    radial-gradient(ellipse at top left, rgba(88, 166, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(163, 113, 247, 0.08) 0%, transparent 50%),
-    var(--bg-dark);
+    /* Horisontella linjer som kollegieblock */
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 27px,
+      var(--line-color) 27px,
+      var(--line-color) 28px
+    ),
+    /* Vänster röd marginal-linje */
+    linear-gradient(
+      to right,
+      transparent 60px,
+      var(--margin-red) 60px,
+      var(--margin-red) 62px,
+      transparent 62px
+    ),
+    var(--bg-paper);
+  background-attachment: local;
 }
 
 .game-wrapper {
@@ -61,6 +75,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  padding-left: 20px;
 }
 
 .header {
@@ -68,44 +83,67 @@ body {
 }
 
 .header h1 {
-  font-size: 2.5rem;
+  font-family: 'Caveat', cursive;
+  font-size: 3.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--player-x), var(--player-o));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.02em;
+  color: var(--pencil-gray);
+  letter-spacing: 0.02em;
   margin-bottom: 0.25rem;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+  transform: rotate(-1deg);
 }
 
 .subtitle {
+  font-family: 'Patrick Hand', cursive;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .game-container {
   background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border: 2px solid var(--pencil-gray);
+  border-radius: 4px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   box-shadow: 
-    0 0 0 1px rgba(255, 255, 255, 0.03),
-    0 8px 32px rgba(0, 0, 0, 0.4);
+    3px 3px 0 rgba(0,0,0,0.1),
+    inset 0 0 30px rgba(0,0,0,0.02);
+  /* Sketchy border effect */
+  position: relative;
+}
+
+.game-container::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--pencil-gray);
+  border-radius: 6px;
+  transform: rotate(0.3deg);
+  pointer-events: none;
+  opacity: 0.3;
 }
 
 .board-wrapper {
   width: 100%;
   aspect-ratio: 1;
   overflow: auto;
-  border-radius: 8px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  background: 
+    /* Kollegieblock-linjer på spelplanen */
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 19px,
+      var(--line-color-light) 19px,
+      var(--line-color-light) 20px
+    ),
+    var(--bg-paper);
+  border: 2px solid var(--pencil-gray);
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.05);
 }
 
 .board {
@@ -121,58 +159,122 @@ body {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid rgba(48, 54, 61, 0.5);
+  border: 1px solid var(--pencil-gray);
   cursor: pointer;
   transition: all 0.15s ease;
   position: relative;
   min-width: 20px;
   min-height: 20px;
+  /* Sketchy cell borders */
+  border-style: solid;
+  border-width: 1px;
+  opacity: 0.6;
+}
+
+.cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px dashed transparent;
+  transition: border-color 0.2s;
 }
 
 .cell:hover:not(.occupied) {
-  background: rgba(88, 166, 255, 0.1);
+  background: rgba(39, 174, 96, 0.1);
+  opacity: 1;
+}
+
+.cell:hover:not(.occupied)::before {
+  border-color: var(--accent-green);
 }
 
 .cell.possible-move {
-  background: rgba(63, 185, 80, 0.15);
-  border-color: rgba(63, 185, 80, 0.3);
+  background: rgba(39, 174, 96, 0.15);
+  opacity: 1;
+}
+
+.cell.possible-move::after {
+  content: '•';
+  position: absolute;
+  color: var(--accent-green);
+  font-size: 1.5em;
+  opacity: 0.5;
 }
 
 .cell.possible-move:hover {
-  background: rgba(63, 185, 80, 0.25);
-  border-color: rgba(63, 185, 80, 0.5);
+  background: rgba(39, 174, 96, 0.25);
 }
 
 .cell.occupied {
   cursor: not-allowed;
+  opacity: 1;
 }
 
 .marker {
-  font-size: clamp(10px, 1.5vw, 14px);
+  font-family: 'Caveat', cursive;
+  font-size: clamp(14px, 2vw, 20px);
   font-weight: 700;
-  animation: popIn 0.2s ease-out;
+  animation: scribble 0.3s ease-out;
 }
 
 .cell.X .marker {
   color: var(--player-x);
-  text-shadow: 0 0 12px var(--glow-x);
+  text-shadow: 1px 1px 0 rgba(231, 76, 60, 0.3);
+  transform: rotate(-3deg);
 }
 
 .cell.O .marker {
   color: var(--player-o);
-  text-shadow: 0 0 12px var(--glow-o);
+  text-shadow: 1px 1px 0 rgba(41, 128, 185, 0.3);
+  transform: rotate(2deg);
 }
 
-@keyframes popIn {
+@keyframes scribble {
   0% {
-    transform: scale(0);
+    transform: scale(0) rotate(-10deg);
     opacity: 0;
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.3) rotate(5deg);
   }
   100% {
-    transform: scale(1);
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.cell.X .marker {
+  animation: scribbleX 0.3s ease-out forwards;
+}
+
+.cell.O .marker {
+  animation: scribbleO 0.3s ease-out forwards;
+}
+
+@keyframes scribbleX {
+  0% {
+    transform: scale(0) rotate(-15deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.3) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(-3deg);
+    opacity: 1;
+  }
+}
+
+@keyframes scribbleO {
+  0% {
+    transform: scale(0) rotate(15deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.3) rotate(-3deg);
+  }
+  100% {
+    transform: scale(1) rotate(2deg);
     opacity: 1;
   }
 }
@@ -189,30 +291,34 @@ body {
   justify-content: center;
   gap: 0.75rem;
   padding: 0.875rem 1.25rem;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  font-size: 1.1rem;
+  background: var(--bg-paper);
+  border: 2px solid var(--pencil-gray);
+  border-radius: 4px;
+  font-size: 1.3rem;
   font-weight: 500;
   transition: all 0.3s ease;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
 }
 
 .status.winner {
-  background: linear-gradient(135deg, rgba(63, 185, 80, 0.15), rgba(78, 205, 196, 0.15));
+  background: rgba(39, 174, 96, 0.15);
   border-color: var(--accent-green);
-  animation: pulse 1.5s ease-in-out infinite;
+  animation: wiggle 0.5s ease-in-out;
 }
 
 .status.thinking {
   animation: thinking 1s ease-in-out infinite;
 }
 
-@keyframes pulse {
+@keyframes wiggle {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.4);
+    transform: rotate(0deg);
   }
-  50% {
-    box-shadow: 0 0 20px 4px rgba(63, 185, 80, 0.2);
+  25% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
   }
 }
 
@@ -221,7 +327,7 @@ body {
     opacity: 1;
   }
   50% {
-    opacity: 0.6;
+    opacity: 0.5;
   }
 }
 
@@ -229,23 +335,27 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-family: 'Caveat', cursive;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.3rem;
+  border: 2px solid;
 }
 
 .player-indicator.X {
-  background: rgba(255, 107, 107, 0.2);
+  background: rgba(231, 76, 60, 0.1);
   color: var(--player-x);
-  box-shadow: 0 0 12px var(--glow-x);
+  border-color: var(--player-x);
+  transform: rotate(-3deg);
 }
 
 .player-indicator.O {
-  background: rgba(78, 205, 196, 0.2);
+  background: rgba(41, 128, 185, 0.1);
   color: var(--player-o);
-  box-shadow: 0 0 12px var(--glow-o);
+  border-color: var(--player-o);
+  transform: rotate(2deg);
 }
 
 .status-text {
@@ -267,37 +377,37 @@ body {
 }
 
 .control-group label {
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 select {
   appearance: none;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  background: var(--bg-paper);
+  border: 2px solid var(--pencil-gray);
+  border-radius: 4px;
   padding: 0.625rem 2rem 0.625rem 0.875rem;
-  font-family: inherit;
-  font-size: 0.9rem;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.1rem;
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a4a4a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
 }
 
 select:hover {
-  border-color: var(--accent-cyan);
+  border-color: var(--player-o);
+  transform: translateY(-1px);
 }
 
 select:focus {
   outline: none;
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+  border-color: var(--player-o);
+  box-shadow: 3px 3px 0 rgba(41, 128, 185, 0.2);
 }
 
 .reset-button {
@@ -306,26 +416,30 @@ select:focus {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
-  background: linear-gradient(135deg, var(--player-x), var(--accent-orange));
-  border: none;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 0.9rem;
+  background: var(--bg-paper);
+  border: 2px solid var(--player-x);
+  border-radius: 4px;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: white;
+  color: var(--player-x);
   cursor: pointer;
   transition: all 0.2s ease;
   flex: 1;
   min-width: 140px;
+  box-shadow: 2px 2px 0 rgba(231, 76, 60, 0.3);
 }
 
 .reset-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(255, 107, 107, 0.3);
+  background: var(--player-x);
+  color: white;
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: 4px 4px 0 rgba(231, 76, 60, 0.3);
 }
 
 .reset-button:active {
-  transform: translateY(0);
+  transform: translateY(0) rotate(0deg);
+  box-shadow: 1px 1px 0 rgba(231, 76, 60, 0.3);
 }
 
 .reset-button svg {
@@ -339,23 +453,25 @@ select:focus {
 
 .footer p {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 1rem;
+  font-style: italic;
 }
 
 /* Scrollbar styling */
 .board-wrapper::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 .board-wrapper::-webkit-scrollbar-track {
-  background: var(--bg-elevated);
+  background: var(--bg-paper);
   border-radius: 4px;
 }
 
 .board-wrapper::-webkit-scrollbar-thumb {
   background: var(--border-color);
   border-radius: 4px;
+  border: 2px solid var(--bg-paper);
 }
 
 .board-wrapper::-webkit-scrollbar-thumb:hover {
@@ -366,10 +482,30 @@ select:focus {
 @media (max-width: 640px) {
   .app {
     padding: 0.75rem;
+    background: 
+      repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 23px,
+        var(--line-color) 23px,
+        var(--line-color) 24px
+      ),
+      linear-gradient(
+        to right,
+        transparent 30px,
+        var(--margin-red) 30px,
+        var(--margin-red) 32px,
+        transparent 32px
+      ),
+      var(--bg-paper);
+  }
+
+  .game-wrapper {
+    padding-left: 10px;
   }
 
   .header h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 
   .game-container {
@@ -378,13 +514,13 @@ select:focus {
 
   .status {
     padding: 0.75rem 1rem;
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .player-indicator {
-    width: 28px;
-    height: 28px;
-    font-size: 0.9rem;
+    width: 30px;
+    height: 30px;
+    font-size: 1.1rem;
   }
 
   .controls {
@@ -396,4 +532,3 @@ select:focus {
     min-width: 100%;
   }
 }
-
