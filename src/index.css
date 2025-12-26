@@ -196,9 +196,13 @@ body {
 .cell.possible-move::after {
   content: '•';
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: var(--accent-green);
   font-size: 1.5em;
   opacity: 0.5;
+  pointer-events: none;
 }
 
 .cell.possible-move:hover {
@@ -214,6 +218,9 @@ body {
   font-family: 'Caveat', cursive;
   font-size: clamp(14px, 2vw, 20px);
   font-weight: 700;
+  line-height: 1;
+  display: block;
+  pointer-events: none;
   animation: scribble 0.3s ease-out;
 }
 
